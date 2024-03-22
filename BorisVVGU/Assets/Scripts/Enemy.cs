@@ -9,8 +9,16 @@ public class Enemy : MonoBehaviour
    Charachter targetCharacter;
    [SerializeField] float speed;
    [SerializeField] int damage = 1;
+   [SerializeField] int currentHP = 5;
+   [SerializeField] int experienceRewards = 400;
+  
 
    Rigidbody2D rgbd2d;
+   void Start()
+    {
+        //Set the tag of this GameObject to Player
+        gameObject.tag = "Enemy";
+    }
    private void Awake() {
         rgbd2d = GetComponent<Rigidbody2D>();  
    }
@@ -33,4 +41,11 @@ public class Enemy : MonoBehaviour
      }
      targetCharacter.TakeDamage(damage);
    }
+    public void TakeDamage(int damage) {
+        currentHP -= damage;
+        if (currentHP <= 0 ) {
+          targetGameObject.GetComponent<Level>().AddExperience(experienceRewards);
+            Destroy(gameObject);
+        }
+    }
 }
